@@ -8,3 +8,5 @@
 out_data/*.csv
 out_data/*.zip
 out_xml/*.xml
+
+tmp_data/*
