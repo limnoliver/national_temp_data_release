@@ -103,7 +103,8 @@ do_item_replace_tasks <- function(sb_id, files, sources) {
 upload_and_record <- function(sb_id, filepath) {
   
   # First verify that you are logged into SB. Need to do this for each task that calls 
-  sb_secret_login()
+  #sb_secret_login()
+  sbtools::authenticate_sb()
   
   # Second, upload the file
   item_replace_files(sb_id, files = filepath)

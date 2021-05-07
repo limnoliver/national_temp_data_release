@@ -1,7 +1,6 @@
 title: >-
   Data release: Multi-source water temperature observations for U.S. streams
 
-
 abstract: >-
   This data release collates stream water temperature records across the United States from four sources: 
   The National Water Information System (NWIS),  Water Quality Portal (WQP),  Spatial Hydro-Ecological Decision Systems (SHEDS)
@@ -10,113 +9,264 @@ abstract: >-
   when sub-daily measurements were available. Quality control was conducted by flagging temperature observations that 
   were outside of three standard deviations of the mean of all temperature records in 1 by 1 degree areas and 6 day time chunks. 
   
-authors: ["Samantha K. Oliver", "Rasha Atshan", "David Watkins", "Alison Appling", ]
+authors: ["Samantha K. Oliver", "Alison Appling", "David Watkins", "Rasha Atshan", "Jordan Read"]
 pubdate: 2021 # replace with actual year, e.g., 2020
-doi: https://doi.org/YY.XXXXX/XXXXXX # replace with actual DOI
+doi: https://doi.org/10.5066/P9EMWZ35 # replace with actual DOI
 
 build-environment: Multiple computer systems were used to generate these data. The open source languages R was used on all systems.
-
-# ----associated publication----
-larger-cites:
-  -
-    authors: ["XX"]
-    title: >-
-      XX 
-    pubdate: 2019
 
 # ----supporting publications----    
 cross-cites:
   -
-    authors: ['XX']
+    authors: 
     title: >-
-      Include separate citations to NWIS, WQP, EcoSHEDS, NorWeST, and national geospatial fabric
+      SHEDS Stream Temperature Database, accessed on 2020-06-22 
+    pubdate: 
+    link: http://db.ecosheds.org/
+  -
+    authors: ['U.S. Geological Survey']
+    title: >-
+      USGS Water Data for the Nation, accessed on 2021-04-07
+    pubdate: 2016
+    link: https://waterdata.usgs.gov/nwis
+  -
+    authors: ['Emily K. Read',  'Lindsay Carr',  'Laura De Cicco',  'Hilary A. Dugan',  'Paul C. Hanson',
+    'Julia A. Hart',  'James Kreft',  'Jordan S. Read',  'Luke A. Winslow']
+    title: >-
+      Water quality data for national-scale aquatic research: The Water Quality Portal, accessed on 2021-04-21
     pubdate: 2017
-    link: http://dx.doi.org/10.1038/sdata.2017.53
+    link: https://doi.org/10.1002/2016WR019993
+  -
+    authors: ['Daniel J. Isaak',  'Seth J. Wenger',  'Erin E. Peterson',  'Jay M. Ver Hoef',  'David E. Nagel',  'Charles H. Luce',
+    'Steven W. Hostetler',  'Jason B. Dunham',  'Brett B. Roper',  'Sherry P. Wollrab',  'Gwynne L. Chandler',  'Dona L. Horan',  'Sharon Parkes-Payne']
+    title: >-
+      The NorWeST Summer Stream Temperature Model and Scenarios for the Western U.S.: A Crowd-Sourced Database and
+      New Geospatial Tools Foster a User Community and Predict Broad Climate Warming of Rivers and Streams, accessed on 2020-09-29
+    pubdate: 2017
+    link: https://doi.org/10.1002/2017WR020969
+  -
+    authors: ['Andrew R Bock', 'Marilyn Santiago', 'Michael E Wieczorek', 'Sydney S Foks', 'Melissa A Lombard']
+    title: >-
+      Geospatial Fabric for National Hydrologic Modeling, version 1.1
+    pubdate: 2020
+    link: https://doi.org/10.5066/P971JAGF
 
 process-date: !expr format(Sys.time(),'%Y%m%d')
-file-format: two comma-delimited files and a single zipped shapefile
+file-format: one comma-delimited file (metadata), a zipped csv (temperature data), and a zipped shapefile
 
 entities:
   -
-    data-name: daily_stream_temperatures.csv
-    data-description: A zipped csv file containing daily water temperature values for streams across the United States. 
+    data-name: daily_stream_temperatures.zip
+    data-description: >-
+      A zipped csv file containing daily water temperature values for streams across the United States. 
     attributes:
     -
       attr-label: site_id
       attr-def: >-
-        Site identifier from the source database. This is not necessarily a unique identifier, but can be crosswalked with the site metadata file with a combination of source and site_id
-      attr-defs:
+        Site identifier from the source database. This is not necessarily a unique identifier, 
+        but can be crosswalked with the site metadata file using a combination of source and site_id.
+        From NWIS, this is field "site_no" with a "USGS-" prefix. From WQP, this is field "MonitoringLocationIdentifier".
+        From EcoSHEDS, this is a combination of the fields "agency_name"-"location_name".
+      attr-defs: This data release
       data-min: NA
       data-max: NA
       data-units: NA
     -
-      attr-label: 
-      attr-def: 
-      attr-defs: 
-      data-min: 
-      data-max: 
-      data-units: 
+      attr-label: date
+      attr-def: >-
+        Date of observation
+      attr-defs: This data release
+      data-min: >-
+        1894-08-30
+      data-max: >-
+        2021-04-09
+      data-units: NA
+    -
+      attr-label: mean_temp_degC 
+      attr-def: >-
+        The average water temperature of all observations taken on the corresponding site-date.
+      attr-defs: This data release
+      data-min: -0.5
+      data-max: 35.0
+      data-units: degrees C
+    -
+      attr-label: min_temp_degC
+      attr-def: >-
+        The minimum water temperature of all observations taken on the corresponding site-date.
+      attr-defs: This data release
+      data-min: -0.5
+      data-max: 35.0
+      data-units: degrees C
+    -
+      attr-label: max_temp_degC
+      attr-def: >-
+        The maximum water temperature of all observations taken on the corresponding site-date.
+      attr-defs: This data release
+      data-min: -0.5
+      data-max: 35.0
+      data-units: degrees C
+    -
+      attr-label: n_obs
+      attr-def: >-
+        The number of observations made on the corresponding site-date. 
+        Note that all data from source "nwis_dv" have NA values because summarized data are provided without 
+        the corresponding number of sub-daily observations. 
+        Additionally, values may not always be an accurate representation of the number of 
+        sub-daily observations, as original sources may not have provided this Information with 
+        corresponding daily data. 
+      attr-defs: This data release
+      data-min: 1 
+      data-max: 124260
+      data-units:
+    -
+      attr-label: source
+      attr-def: >-
+        Database from which the temperature observations were retrieved.
+        nwis_dv - U.S. Geological Survey daily data for the nation
+        nwis_uv - U.S. Geological Survey current conditions for the nation
+        ecosheds - SHEDS temperature database
+        norwest - NorWeST database
+      attr-defs: This data release
+      data-min: NA
+      data-max: NA
+      data-units: NA
+    -
+      attr-label: flag
+      attr-def: >- 
+        Indicators that the quality of the data may be affected. 
+        Dry = Dry condition exists at the measurement site
+        Eqp = Value affected by equipment malfunction
+        ef = Value was flagged coming from the EcoSHEDS database
+        Ice = Value is affected by ice at the measurement site
+        Mnt = Site under going maintenance
+        o = Value is outlier. Outlier was defined as any observations that was more than 3 standard deviations 
+        from the mean of all temperature records within space (1 by 1 degree bounding box) and time (6 day) 
+        intervals. 
+        P = Provisional data subject to revision
+      attr-defs: >-
+        https://help.waterdata.usgs.gov/codes-and-parameters/daily-value-qualification-code-dv_rmk_cd; 
+        https://help.waterdata.usgs.gov/codes-and-parameters/instantaneous-and-daily-value-status-codes; 
+        Outlier detection code: XXhttps://github.com/USGS-R/2wp-temp-observations[will replace with DOI]
+      data-min: NA
+      data-max: NA
+      data-units: NA
   -
     data-name: site_metadata.csv
     data-description: A csv containing metadata for each temperature monitoring site included in daily_stream_temperatures.csv
     attributes:
     -
-      attr-label: x
-      attr-def: definition of x
+      attr-label: site_id
+      attr-def: >-
+        Site identifier from the source database. This is not necessarily a unique identifier, 
+        but can be crosswalked with the site metadata file with a combination of source and site_id.
       attr-defs: >-
-        citation or URL of x. If citation, should appear in cross-cites. Can use NA or "This release"
+        This data release
+      data-min: NA
+      data-max: NA
+      data-units: NA
+    -
+      attr-label: site_type
+      attr-def: >-
+        The type of waterbody on which the temperature observation was made. 
+        ST = streams
+        ST-TS = tidally-influenced streams (ST-TS)
+        ST-DCH = ditches
+        SP = springs 
+        ST-CA = canals 
+      attr-defs: >-
+        https://help.waterdata.usgs.gov/code/site_tp_query?fmt=html
       data-min: NA
       data-max: NA
       data-units: NA  
     -
-      attr-label: y
-      attr-def: definition of y
-      attr-defs: >-
-        citation or URL of y. If citation, should appear in cross-cites. Can use NA or "This release"
+      attr-label: source
+      attr-def: >-
+        Database from which the temperature observations were retrieved.
+        nwis_dv - U.S. Geological Survey daily data for the nation
+        nwis_uv - U.S. Geological Survey current conditions for the nation
+        ecosheds - SHEDS temperature database
+        norwest - NorWeST database
+      attr-defs: This data release
       data-min: NA
       data-max: NA
       data-units: NA
     -
-      attr-label: z
-      attr-def: definition of z
-      attr-defs: >-
-        citation or URL of z. If citation, should appear in cross-cites. Can use NA or "This release"
+      attr-label: original_source
+      attr-def: >-
+        The organization that collected the temperature records. Original sources are coded as the USGS if 
+        the data are from source nwis_dv or nwis_uv. From EcoSheds, original sources come from the "Agency" field.
+        From NorWeST, original sources come from the "Source" field. From WQP, original sources come from the "OrganizationIdentifier" field.
+      attr-defs: This data release
       data-min: NA
       data-max: NA
       data-units: NA
-
-
-purpose: Fisheries biology, limnological research, and climate science.
-start-date: 19800401
-end-date: 20191231
+    -
+      attr-label: latitude
+      attr-def: >-
+        Latitude of monitoring location, in decimal degrees (WGS 84) 
+      attr-defs: This data release
+      data-min: NA
+      data-max: NA
+      data-units: NA
+    -
+      attr-label: longitude
+      attr-def: >-
+        Longitude of monitoring location, in decimal degrees (WGS 84)
+      attr-defs: This data release
+      data-min: NA
+      data-max: NA
+      data-units: NA
+    -
+      attr-label: seg_id_orig_match
+      attr-def: >-
+        The closest river reach from the Geospatial Fabric v1.1, by Euclidean distance, from the monitoring site. 
+        Matches were limited to a 500m buffer of the monitoring site. The reach number is from the field "XX" in the 
+        National Geospatial Fabric.
+      attr-defs: https://doi.org/10.5066/P971JAGF
+      data-min: NA
+      data-max: NA
+      data-units: NA
+    -
+      attr-label: seg_id_reassign
+      attr-def: >-
+        Once the original reach match was assigned, the matched segment was reassigned if the endpoint of the 
+        upstream reach was closer to the monitoring site (by river distance) than the endpoint of the matched reach. 
+        If the upstream endpoint was closer, but there was a confluence directly upstream, then the original match was kept.
+      attr-defs: https://doi.org/10.5066/P971JAGF
+      data-min: NA
+      data-max: NA
+      data-units: NA
+purpose: water quality research, modeling, climate change
+start-date: 18940830
+end-date: 20210409
 
 update: none planned
-themekeywords: ["machine learning", "deep learning", "hybrid modeling", "water","temperature", "temperate lakes","reservoirs","modeling","climate change","thermal profiles"]
+themekeywords: ["water","temperature", "streams","rivers"]
 
 usage-rules: >-
   These data are open access usable via creative commons as long as original data providers are acknowledged
 
-descgeog: "Lake polygons as defined by the national hydrography dataset high resolution"
+descgeog: "Point location of water temperature monitoring locations"
 data-publisher: U.S. Geological Survey
 indirect-spatial: U.S.A.
 latitude-res: 0.00001
 longitude-res: 0.00001
 
 # ----contacts----
-contact-person: Jordan S. Read
-contact-phone: 608-821-3922
-contact-email: jread@usgs.gov
-contact-position: Research Civil Engineer
+contact-person: Samantha K. Oliver
+contact-phone: 608-821-3824
+contact-email: soliver@usgs.gov
+contact-position: Physical Scientist
 contact-address: "8505 Research Way"
 contact-city: Middleton
 contact-state: WI
 contact-zip: 53562
 
-metadata-person: Jordan S. Read
-metadata-position: Research Civil Engineer
-metadata-phone: 608-821-3921
+metadata-person: Samantha K. Oliver
+metadata-position: Physical Scientist
+metadata-phone: 608-821-3824
 metadata-fax: 608-821-3817
-metadata-email: jread@usgs.gov
+metadata-email: soliver@usgs.gov
 metadata-address: "8505 Research Way"
 metadata-city: Middleton
 metadata-state: WI
@@ -125,13 +275,12 @@ metadata-date: !expr format(Sys.time(),'%Y%m%d')
 
 accur-test: No formal attribute accuracy tests were conducted.
 funding-credits: >-
-  This study was funded by the [DETAILS HERE]
-  This research used resources of the Core Science Analytics and Synthesis Advanced Research Computing program at the U.S. Geological Survey.
+  This study was funded by the Integrated Water Prediction Program of the Water Availability and Use Science portfolio.
 
 process-description: >-
   [A description of processing]
 
-distro-person: Jordan S. Read
+distro-person: Samantha K. Oliver
 liability-statement: >-
   Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected.
   Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS),
