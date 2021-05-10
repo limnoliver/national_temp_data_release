@@ -3,7 +3,7 @@ title: >-
 
 abstract: >-
   This data release collates stream water temperature records across the United States from four sources: 
-  The National Water Information System (NWIS),  Water Quality Portal (WQP),  Spatial Hydro-Ecological Decision Systems (SHEDS)
+  The National Water Information System (NWIS),  Water Quality Portal (WQP),  Spatial Hydro-Ecological Decision Systems (EcoSHEDS)
   temperature database, and  NorWeST stream temperature database. Temperature monitoring sites were paired to stream
   segments from the National Geospatial Fabric. Data were reduced to daily mean, minimum, and maximum temperatures
   when sub-daily measurements were available. Quality control was conducted by flagging temperature observations that 
@@ -13,7 +13,12 @@ authors: ["Samantha K. Oliver", "Alison Appling", "David Watkins", "Rasha Atshan
 pubdate: 2021 # replace with actual year, e.g., 2020
 doi: https://doi.org/10.5066/P9EMWZ35 # replace with actual DOI
 
-build-environment: Multiple computer systems were used to generate these data. The open source languages R was used on all systems.
+build-environment: >-
+  This dataset was generated using open source tools available in the R programming language (R version 4.0.2 (2020-06-22)).
+  
+  The computing platform for generating data and metadata was x86_64-w64-mingw32. 
+  
+  R packages loaded into this environment: ggsn, version: 0.5.3; ggmap, version: 3.0.0; sbtools, version: 1.1.12; assertthat, version: 0.2.1; nhdplusTools, version: 0.3.16; sf, version: 0.9-7; readxl, version: 1.3.1; lubridate, version: 1.7.9.2; xml2, version: 1.3.2; ggthemes, version: 4.2.0; maps, version: 3.3.0; yaml, version: 2.2.1; dataRetrieval, version: 2.7.7; scipiper, version: 0.0.24; forcats, version: 0.5.0; stringr, version: 1.4.0; dplyr, version: 1.0.2; purrr, version: 0.3.4; readr, version: 1.4.0; tidyr, version: 1.1.2; tibble, version: 3.0.4; ggplot2, version: 3.3.2; tidyverse, version: 1.3.0.
 
 # ----supporting publications----    
 cross-cites:
@@ -236,6 +241,16 @@ entities:
       data-min: NA
       data-max: NA
       data-units: NA
+  -
+    data-name: national_stream_temp_code.zip
+    data-description: >-
+      A zipped R Project containing all code used to retrieve and process stream temperature data.
+      Code is executed through functions via the .yml files. The 1_ files coordinate the WQP data pull and processing, 
+      the 2_ files coordinate the NWIS data pull and processing, the 4_files coordinate the NorWeST and EcoSHEDS 
+      download or import and processing. The 5_ files bring all data together, reduces
+      duplicates, and flags outliers. The 6_ files match the temperature monitoring locations
+      to the national geospatial fabric. 
+
 purpose: water quality research, modeling, climate change
 start-date: 18940830
 end-date: 20210409
@@ -278,7 +293,27 @@ funding-credits: >-
   This study was funded by the Integrated Water Prediction Program of the Water Availability and Use Science portfolio.
 
 process-description: >-
-  [A description of processing]
+  Data were gathered and processed from four sources using the R programming language. Data from the National Water Information System
+  (NWIS) and the Water Quality Portal (WQP) were accessed using the R package dataRetrieval. Daily, publicly available data from EcoSHEDS 
+  were emailed from database developers. Daily data from NorWeST were accessed by subregion from the database website. We retained data
+  from sites that were described as streams, springs, ditches, tidally-influenced streams, or canals. Data from all sources were brought 
+  together into a single file, and attempts to reduce duplicated data were made.
+  
+  \nSites that had multiple water temperature observations per day were reduced down to a single daily mean, minimum, and maximum value,
+  and the number of sub-daily observations was tracked. Flags from source databases were retained, and observations from EcoSHEDS 
+  with flags that indicated poor data quality (e.g., "sensor out of water") were removed. We additionally flagged temperature observations 
+  we deemed to be outliers. Outliers were determined by finding the mean and standard deviation of all temperature observations in 1 by 1 degree
+  areas and 6-day windows; observations that fell outside of three standard deviations of the mean were flagged as outliers but retained 
+  in the dataset. 
+  
+  \nTemperature sites were hydrologically addressed to the National Geospatial Fabric v1.1 by searching for a matching stream segment
+  within a 500 meter buffer. Sites were matched to the closest segment by Euclidean distance, but were then reassigned to an upstream segment
+  if the site was closer to the upstream segment's outlet compared to the matched segment's outlet. 
+  
+  More details regarding retrieving and processing this data can be found in the source code at 
+  https://github.com/USGS-R/2wp-temp-observations[will replace with DOI].
+  
+  
 
 distro-person: Samantha K. Oliver
 liability-statement: >-

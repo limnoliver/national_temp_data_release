@@ -52,7 +52,7 @@ targets:
       sb_id = I('5f60d95e82ce3550e3c23133'),
       "out_data/spatial.zip",
       "out_data/daily_stream_temperature.zip",
-      'out_data/site_metadata.csv',
+      I("in_data/national_stream_temp_code.zip"),
+      "out_data/site_metadata.csv",
       "out_xml/fgdc_metadata.xml",
       sources = "src/sb_utils.R")
-      
