@@ -117,7 +117,7 @@ entities:
       attr-defs: This data release
       data-min: 1 
       data-max: 124260
-      data-units:
+      data-units: NA
     -
       attr-label: source
       attr-def: >-
