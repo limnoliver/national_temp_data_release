@@ -5,7 +5,7 @@ abstract: >-
   This data release collates stream water temperature records across the United States from four sources: 
   The National Water Information System (NWIS),  Water Quality Portal (WQP),  Spatial Hydro-Ecological Decision Systems (EcoSHEDS)
   temperature database, and  NorWeST stream temperature database. Temperature monitoring sites were paired to stream
-  segments from the National Geospatial Fabric. Data were reduced to daily mean, minimum, and maximum temperatures
+  segments from the Geospatial Fabric for the National Hydrologic Model. Data were reduced to daily mean, minimum, and maximum temperatures
   when sub-daily measurements were available. Quality control was conducted by flagging temperature observations that 
   were outside of three standard deviations of the mean of all temperature records in 1 by 1 degree areas and 6 day time chunks. 
   
@@ -138,20 +138,34 @@ entities:
     -
       attr-label: flag
       attr-def: >- 
-        Indicators that the quality of the data may be affected. 
+        Indicators that the quality of the data may be affected.
+        
+        
         Dry = Dry condition exists at the measurement site
+        
         Eqp = Value affected by equipment malfunction
+        
         ef = Value was flagged coming from the EcoSHEDS database
+        
         Ice = Value is affected by ice at the measurement site
+        
         Mnt = Site under going maintenance
+        
         o = Value is outlier. Outlier was defined as any observations that was more than 3 standard deviations 
         from the mean of all temperature records within space (1 by 1 degree bounding box) and time (6 day) 
         intervals. 
+        
         P = Provisional data subject to revision
       attr-defs: >-
+      
         https://help.waterdata.usgs.gov/codes-and-parameters/daily-value-qualification-code-dv_rmk_cd; 
+        
+        
         https://help.waterdata.usgs.gov/codes-and-parameters/instantaneous-and-daily-value-status-codes; 
-        Outlier detection code: XXhttps://github.com/USGS-R/2wp-temp-observations[will replace with DOI]
+        
+        
+        Outlier detection code can be found in the file "5_data_munge/src/qaqc_daily_data.R" 
+        in "national_stream_temp_code.zip" included in this data release.
       data-min: NA
       data-max: NA
       data-units: NA
@@ -172,12 +186,19 @@ entities:
     -
       attr-label: site_type
       attr-def: >-
-        The type of waterbody on which the temperature observation was made. 
+        The type of waterbody on which the temperature observation was made.
+        
+        
         ST = streams
+        
         ST-TS = tidally-influenced streams (ST-TS)
+        
         ST-DCH = ditches
+        
         SP = springs 
+        
         ST-CA = canals 
+        
       attr-defs: >-
         https://help.waterdata.usgs.gov/code/site_tp_query?fmt=html
       data-min: NA
@@ -187,9 +208,14 @@ entities:
       attr-label: source
       attr-def: >-
         Database from which the temperature observations were retrieved.
+        
+        
         nwis_dv - U.S. Geological Survey daily data for the nation
+        
         nwis_uv - U.S. Geological Survey current conditions for the nation
+        
         ecosheds - SHEDS temperature database
+        
         norwest - NorWeST database
       attr-defs: This data release
       data-min: NA
@@ -225,8 +251,8 @@ entities:
       attr-label: seg_id_orig_match
       attr-def: >-
         The closest river reach from the Geospatial Fabric v1.1, by Euclidean distance, from the monitoring site. 
-        Matches were limited to a 500m buffer of the monitoring site. The reach number is from the field "XX" in the 
-        National Geospatial Fabric.
+        Matches were limited to a 500m buffer of the monitoring site. The reach number is from the field "nsegment_v1_1" in the 
+        Geospatial Fabric for the National Hydrologic Model v1.1.
       attr-defs: https://doi.org/10.5066/P971JAGF
       data-min: NA
       data-max: NA
@@ -249,7 +275,7 @@ entities:
       the 2_ files coordinate the NWIS data pull and processing, the 4_files coordinate the NorWeST and EcoSHEDS 
       download or import and processing. The 5_ files bring all data together, reduces
       duplicates, and flags outliers. The 6_ files match the temperature monitoring locations
-      to the national geospatial fabric. 
+      to the Geospatial Fabric for the National Hydrologic Model. 
 
 purpose: water quality research, modeling, climate change
 start-date: 18940830
@@ -297,21 +323,24 @@ process-description: >-
   (NWIS) and the Water Quality Portal (WQP) were accessed using the R package dataRetrieval. Daily, publicly available data from EcoSHEDS 
   were emailed from database developers. Daily data from NorWeST were accessed by subregion from the database website. We retained data
   from sites that were described as streams, springs, ditches, tidally-influenced streams, or canals. Data from all sources were brought 
-  together into a single file, and attempts to reduce duplicated data were made.
+  together into a single file, and attempts to reduce duplicated data were made. 
   
-  \nSites that had multiple water temperature observations per day were reduced down to a single daily mean, minimum, and maximum value,
+  
+  Sites that had multiple water temperature observations per day were reduced down to a single daily mean, minimum, and maximum value,
   and the number of sub-daily observations was tracked. Flags from source databases were retained, and observations from EcoSHEDS 
   with flags that indicated poor data quality (e.g., "sensor out of water") were removed. We additionally flagged temperature observations 
   we deemed to be outliers. Outliers were determined by finding the mean and standard deviation of all temperature observations in 1 by 1 degree
   areas and 6-day windows; observations that fell outside of three standard deviations of the mean were flagged as outliers but retained 
   in the dataset. 
   
-  \nTemperature sites were hydrologically addressed to the National Geospatial Fabric v1.1 by searching for a matching stream segment
+  
+  Temperature sites were matched to the Geospatial Fabric for the National Hydrologic Model v1.1 by searching for a matching stream segment
   within a 500 meter buffer. Sites were matched to the closest segment by Euclidean distance, but were then reassigned to an upstream segment
   if the site was closer to the upstream segment's outlet compared to the matched segment's outlet. 
   
-  More details regarding retrieving and processing this data can be found in the source code at 
-  https://github.com/USGS-R/2wp-temp-observations[will replace with DOI].
+  
+  More details regarding retrieving and processing this data can be found in the source code provided
+  in a zipped repository in this data release (national_stream_temp_code.zip).
   
   
 
