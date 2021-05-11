@@ -126,10 +126,16 @@ entities:
     -
       attr-label: source
       attr-def: >-
+      
         Database from which the temperature observations were retrieved.
+        
+        
         nwis_dv - U.S. Geological Survey daily data for the nation
+        
         nwis_uv - U.S. Geological Survey current conditions for the nation
+        
         ecosheds - SHEDS temperature database
+        
         norwest - NorWeST database
       attr-defs: This data release
       data-min: NA
