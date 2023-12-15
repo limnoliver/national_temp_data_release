@@ -1,16 +1,21 @@
 title: >-
-  Data release: Multi-source water temperature observations for U.S. streams
+  Data release: Compliation of multi-agency water temperature observations for U.S. streams, 1894-2022
 
 abstract: >-
-  This data release collates stream water temperature records across the United States from four sources: 
-  The National Water Information System (NWIS),  Water Quality Portal (WQP),  Spatial Hydro-Ecological Decision Systems (EcoSHEDS)
-  temperature database, and  NorWeST stream temperature database. Temperature monitoring sites were paired to stream
-  segments from the Geospatial Fabric for the National Hydrologic Model. Data were reduced to daily mean, minimum, and maximum temperatures
-  when sub-daily measurements were available. Quality control was conducted by flagging temperature observations that 
-  were outside of three standard deviations of the mean of all temperature records in 1 by 1 degree areas and 6 day time chunks. 
+  This data release collates stream water temperature observations across the United States from four sources: 
+  The U.S. Geological Survey's National Water Information System (NWIS),  Water Quality Portal (WQP),  Spatial Hydro-Ecological Decision Systems (EcoSHEDS)
+  temperature database (EcoSHEDS), and the U.S. Fish and Wildlife's NorWeST stream temperature database. Observations are included from
+  the contiguous continental US, as well as Alaska, Hawaii, and territories. Temperature monitoring sites were paired to stream
+  segments from the Geospatial Fabric for the National Hydrologic Model. Continuous and discrete data were reduced to daily mean, minimum, and maximum temperatures
+  when sub-daily measurements were available. Various quality control checks were conducted including inspecting and converting units,
+  eliminating duplicate entries, interpreting flags and removing low quality observations, fixing date issues from the WQP,
+  and filtering to expected water temperature ranges. However, we expect data quality issues persist and users should
+  conduct further data quality checks that match the intended use of the data. 
+  
+
   
 authors: ["Samantha K. Oliver", "Alison Appling", "David Watkins", "Rasha Atshan", "Jordan Read"]
-pubdate: 2021 # replace with actual year, e.g., 2020
+pubdate: 2023 # replace with actual year, e.g., 2020
 doi: https://doi.org/10.5066/P9EMWZ35 # replace with actual DOI
 
 build-environment: >-
@@ -105,7 +110,8 @@ entities:
     -
       attr-label: max_temp_degC
       attr-def: >-
-        The maximum water temperature of all observations taken on the corresponding site-date.
+        The maximum water temperature of all observations taken on the corresponding site-date. Maximum values
+        were calculated when two or more observations were collected on the same site-date. 
       attr-defs: This data release
       data-min: -0.5
       data-max: 35.0
@@ -115,10 +121,10 @@ entities:
       attr-def: >-
         The number of observations made on the corresponding site-date. 
         Note that all data from source "nwis_dv" have NA values because summarized data are provided without 
-        the corresponding number of sub-daily observations. 
-        Additionally, values may not always be an accurate representation of the number of 
-        sub-daily observations, as original sources may not have provided this Information with 
-        corresponding daily data. 
+        the corresponding number of sub-daily observations. In some cases, the n_obs value was
+        generated during compilation of these data (e.g., from WQP or nwis_uv when more than one observation
+        per site-day was provided). In many cases (EcoSHEDS, NorWeST), this number was provided from the source
+        database.
       attr-defs: This data release
       data-min: 1 
       data-max: 124260
@@ -127,7 +133,9 @@ entities:
       attr-label: source
       attr-def: >-
       
-        Database from which the temperature observations were retrieved.
+        Database from which the temperature observations were retrieved. For more information
+        on how observations from each database were gathered and cleaned, see the code
+        in "national_stream_temp_code.zip" included in this data release.
         
         
         nwis_dv - U.S. Geological Survey daily data for the nation
@@ -144,34 +152,33 @@ entities:
     -
       attr-label: flag
       attr-def: >- 
-        Indicators that the quality of the data may be affected.
-        
+        Indicators that the quality of the data may be affected. All flags except the
+        EcoSHEDS comments are from the USGS (nwis_dv or nwis_uv). Users should use
+        flagged observations with caution. NA values indicate there were no quality flags from the
+        source databases. Provisional flags from the USGS data indicate the observations
+        did not receive final review and approval, and are subject to change, but aren't
+        directly an indication of poor data quality. Comments from the EcoSHEDS database
+        are included because they often indicate something about quality, but need further
+        interpretation when using the data. 
         
         Dry = Dry condition exists at the measurement site
         
         Eqp = Value affected by equipment malfunction
-        
-        ef = Value was flagged coming from the EcoSHEDS database
-        
+
         Ice = Value is affected by ice at the measurement site
         
         Mnt = Site under going maintenance
         
-        o = Value is outlier. Outlier was defined as any observations that was more than 3 standard deviations 
-        from the mean of all temperature records within space (1 by 1 degree bounding box) and time (6 day) 
-        intervals. 
-        
         P = Provisional data subject to revision
+        
+        EC: [comment] = comment from EcoSHEDS that often indicates something about the quality of the data.
       attr-defs: >-
       
         https://help.waterdata.usgs.gov/codes-and-parameters/daily-value-qualification-code-dv_rmk_cd; 
         
         
         https://help.waterdata.usgs.gov/codes-and-parameters/instantaneous-and-daily-value-status-codes; 
-        
-        
-        Outlier detection code can be found in the file "5_data_munge/src/qaqc_daily_data.R" 
-        in "national_stream_temp_code.zip" included in this data release.
+
       data-min: NA
       data-max: NA
       data-units: NA
@@ -228,11 +235,11 @@ entities:
       data-max: NA
       data-units: NA
     -
-      attr-label: original_source
+      attr-label: collection_agency
       attr-def: >-
-        The organization that collected the temperature records. Original sources are coded as the USGS if 
-        the data are from source nwis_dv or nwis_uv. From EcoSheds, original sources come from the "Agency" field.
-        From NorWeST, original sources come from the "Source" field. From WQP, original sources come from the "OrganizationIdentifier" field.
+        The organization that collected the temperature records. Collection agencies are coded as the USGS if 
+        the data are from source nwis_dv or nwis_uv. From EcoSheds, collection agency come from the "Agency" field.
+        From NorWeST, collection agency come from the "Source" field. From WQP, collection agency comes from the "OrganizationIdentifier" field.
       attr-defs: This data release
       data-min: NA
       data-max: NA
@@ -291,7 +298,9 @@ update: none planned
 themekeywords: ["water","temperature", "streams","rivers"]
 
 usage-rules: >-
-  These data are open access usable via creative commons as long as original data providers are acknowledged
+  These data are open access usable via creative commons as long as
+  original data providers are acknowledged (see field "collection_agency" in file
+  site_metadata.csv for original data providers).
 
 descgeog: "Point location of water temperature monitoring locations"
 data-publisher: U.S. Geological Survey
@@ -301,23 +310,23 @@ longitude-res: 0.00001
 
 # ----contacts----
 contact-person: Samantha K. Oliver
-contact-phone: 608-821-3824
+contact-phone: 608-828-9901
 contact-email: soliver@usgs.gov
-contact-position: Physical Scientist
-contact-address: "8505 Research Way"
-contact-city: Middleton
+contact-position: Hydrologist
+contact-address: "1 Gifford Pinchot Dr"
+contact-city: Madison
 contact-state: WI
-contact-zip: 53562
+contact-zip: 53726
 
 metadata-person: Samantha K. Oliver
-metadata-position: Physical Scientist
-metadata-phone: 608-821-3824
+metadata-position: Hydrologist
+metadata-phone: 608-828-9901
 metadata-fax: 608-821-3817
 metadata-email: soliver@usgs.gov
-metadata-address: "8505 Research Way"
-metadata-city: Middleton
+metadata-address: "1 Gifford Pinchot Dr"
+metadata-city: Madison
 metadata-state: WI
-metadata-zip: 53562
+metadata-zip: 53726
 metadata-date: !expr format(Sys.time(),'%Y%m%d')
 
 accur-test: No formal attribute accuracy tests were conducted.
@@ -327,14 +336,51 @@ funding-credits: >-
 process-description: >-
   Data were gathered and processed from four sources using the R programming language. Data from the National Water Information System
   (NWIS) and the Water Quality Portal (WQP) were accessed using the R package dataRetrieval. Daily, publicly available data from EcoSHEDS 
-  were emailed from database developers. Daily data from NorWeST were accessed by subregion from the database website. We retained data
-  from sites that were described as streams, springs, ditches, tidally-influenced streams, or canals. Data from all sources were brought 
-  together into a single file, and attempts to reduce duplicated data were made. 
+  were emailed from database developers. Daily data from NorWeST were accessed by subregion from the database website. 
   
+  The following processing steps were made to bring the multi-agency data together into a single file. We retained data
+  from sites that were described as streams, springs, ditches, tidally-influenced streams, or canals. However, we did not
+  reference the site latitude and longitude to known waterbodies to verify the location was associated with a stream;
+  that is, it's possible that observations in this dataset come from a lake, wetland, or reservoir. We excluded
+  any observations that did not have enough supporting metadata (site location, date, etc.). We also excluded records that reported
+  unrealistic summaries, including daily means that were less than the daily minimum or greater than the daily maximum. 
+
   
-  Sites that had multiple water temperature observations per day were reduced down to a single daily mean, minimum, and maximum value,
-  and the number of sub-daily observations was tracked. Flags from source databases were retained, and observations from EcoSHEDS 
-  with flags that indicated poor data quality (e.g., "sensor out of water") were removed. We additionally flagged temperature observations 
+  When bringing the multi-agency data together, we ensured all units were converted to degrees Celsius. In the EcoSHEDS data,
+  some data were reported in Celsius that appeared to be more consistent with Fahrenheit (e.g., values above 45). For these records,
+  we identified the unique idenifiers that had observations above 45, and assigned those records as having the unit Fahrenheit, and then converted 
+  to Celsius. In the NorWest dataset,
+  approximately 2.4 million records did not have reported units. We used the following rules (in order) to assign units to the records
+  with no reported units; for each site-year, 
+  we assigned degrees Celsius as the unit to site-years with a maximum of daily means (maxDM) less than 35 and a minimum of daily means (minDM) less
+  than 32. Site-years with maxDM greater than or equal to 35 and a minDM greater than or equal to 32 were assigned as degrees Fahrenheit.
+  For remaining records, site-years with maxDM less than 32 or minDM less than 30 were assigned as degrees Celsius. For those records where
+  we assigned units to records, we added the flag "EU" for "estimated units". See the script
+  munge_data_files.R for more information about how these records were processed. 
+  
+  In general, we attempted to reduce the dataset down to a single value per site-day. If more
+  than one observation per site-day was reported from a single source database, daily summaries were either calculated (in the case of data from WQP or NWISuv)
+  or provided directly from the source dataset (in the case of NWISdv, EcoSHEDS, NorWEST, and some data from WQP). 
+  If there was only a single observation per site-day, values are reported in the "discrete_temp_degC" column with a
+  corresponding local time of collection. However, because NWISdv, NorWest, and EcoSHEDS
+  report daily summaries themselves, and in some instances (NWISdv) do not report the number of sub-daily observations,
+  there is no guarentee for how well daily summaries represent the true minimum, maximum, and daily mean values.
+  Users can use the the number of observations field ("n_obs") to gauge how well the summary value represents the true value, but
+  this information is incomplete (NA for all data coming from NWISdv).
+  
+  In some instances, multiple databases reported the same observations, creating duplicate records in our assembled dataset.
+  After assembling all data, we rounded the coordinates (reported in decimal degrees) to four decimal points and
+  removed duplicate records with the same rounded coordinates, site identifier, date, and water temperature observation. We expect
+  that duplicates records still exist in this dataset given slight differences in reporting (e.g., rounding differences or 
+  site identifier differences). We also expect that multiple observations per site-date may exist if multiple agencies collected
+  temperature observations at the same site and the same day. We did not further reduce data down to a single value per site-date
+  because it was difficult to distinguish between true sub-daily observations and records that were duplicated (but not exact) across
+  datasets.
+  
+  Flags from source databases were retained, and observations from EcoSHEDS 
+  with comments that explicitly indicated poor data quality (e.g., "sensor out of water") were removed. All remaining comments
+  from EcoSHEDS were included in the flag column and given the prefix "E" given the flag 'ef' because we had no way of defining the flags from EcoSHEDS. 
+  We additionally flagged temperature observations 
   we deemed to be outliers. Outliers were determined by finding the mean and standard deviation of all temperature observations in 1 by 1 degree
   areas and 6-day windows; observations that fell outside of three standard deviations of the mean were flagged as outliers but retained 
   in the dataset. 
