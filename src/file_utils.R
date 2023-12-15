@@ -53,7 +53,7 @@ rds_to_csv <- function(in_file, out_file){
 
 reduce_metadata <- function(in_file, out_file) {
   dat <- readRDS(in_file) %>%
-    select(site_id, site_type, source, original_source, longitude, latitude, seg_id_orig_match, seg_id_reassign)
+    select(site_id, site_type, source, collection_agency, longitude, latitude, seg_id_orig_match, seg_id_reassign)
   
   write_csv(dat, out_file)
   
