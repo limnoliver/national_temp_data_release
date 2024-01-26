@@ -1,21 +1,22 @@
 title: >-
-  Data release: Compliation of multi-agency water temperature observations for U.S. streams, 1894-2022
+  Data release: Compilation of multi-agency water temperature observations for U.S. streams, 1894-2022
 
 abstract: >-
-  This data release collates stream water temperature observations across the United States from four sources: 
-  The U.S. Geological Survey's National Water Information System (NWIS),  Water Quality Portal (WQP),  Spatial Hydro-Ecological Decision Systems (EcoSHEDS)
-  temperature database (EcoSHEDS), and the U.S. Fish and Wildlife's NorWeST stream temperature database. Observations are included from
+  This data release collates stream water temperature observations across the United States from four data sources: 
+  The U.S. Geological Survey's National Water Information System (NWIS),  Water Quality Portal (WQP),  Spatial Hydro-Ecological Decision Systems
+  temperature database (EcoSHEDS), and the U.S. Fish and Wildlife's NorWeST stream temperature database. 
+  These data were compiled for use in broad scale water temperature models. Observations are included from
   the contiguous continental US, as well as Alaska, Hawaii, and territories. Temperature monitoring sites were paired to stream
   segments from the Geospatial Fabric for the National Hydrologic Model. Continuous and discrete data were reduced to daily mean, minimum, and maximum temperatures
-  when sub-daily measurements were available. Various quality control checks were conducted including inspecting and converting units,
-  eliminating duplicate entries, interpreting flags and removing low quality observations, fixing date issues from the WQP,
+  when more than one measurement was made per site-day. Various quality control checks were conducted including inspecting and converting units,
+  eliminating some duplicate entries, interpreting flags and removing low quality observations, fixing date issues from the WQP,
   and filtering to expected water temperature ranges. However, we expect data quality issues persist and users should
   conduct further data quality checks that match the intended use of the data. 
   
 
   
 authors: ["Samantha K. Oliver", "Alison Appling", "David Watkins", "Rasha Atshan", "Jordan Read"]
-pubdate: 2023 # replace with actual year, e.g., 2020
+pubdate: 2024 # replace with actual year, e.g., 2020
 doi: https://doi.org/10.5066/P9EMWZ35 # replace with actual DOI
 
 build-environment: >-
@@ -102,7 +103,7 @@ entities:
     -
       attr-label: min_temp_degC
       attr-def: >-
-        The minimum water temperature of all observations taken on the corresponding site-date.
+        The minimum water temperature of all observations taken on the corresponding site-date. 
       attr-defs: This data release
       data-min: -0.5
       data-max: 35.0
@@ -110,8 +111,7 @@ entities:
     -
       attr-label: max_temp_degC
       attr-def: >-
-        The maximum water temperature of all observations taken on the corresponding site-date. Maximum values
-        were calculated when two or more observations were collected on the same site-date. 
+        The maximum water temperature of all observations taken on the corresponding site-date.  
       attr-defs: This data release
       data-min: -0.5
       data-max: 35.0
@@ -167,11 +167,14 @@ entities:
 
         Ice = Value is affected by ice at the measurement site
         
-        Mnt = Site under going maintenance
+        Mnt = Site undergoing maintenance
         
         P = Provisional data subject to revision
         
-        EC: [comment] = comment from EcoSHEDS that often indicates something about the quality of the data.
+        UE = Units were estimated based on reported water temperature ranges at that site-year. For more details,
+        see the processing description or the code in file munge_data_files.R.
+        
+        ES[comment] = comment from EcoSHEDS that often indicates something about the quality of the data.
       attr-defs: >-
       
         https://help.waterdata.usgs.gov/codes-and-parameters/daily-value-qualification-code-dv_rmk_cd; 
@@ -182,15 +185,36 @@ entities:
       data-min: NA
       data-max: NA
       data-units: NA
+    -
+      attr-label: derived_from
+      attr-def: >-
+        The resolution of observations that were used to compute or fill in the daily summaries in this data release.
+        "Daily" indicates the source dataset reported daily summaries (nwis_dv, EcoSHEDS, NorWeST, and some observations from WQP), "discrete"
+        indicates the source dataset reported discrete observations (WQP), and "instantaneous" indicates unit value data from nwis_uv. 
+      attr-defs: This data release
+      data-min: NA
+      data-max: NA
+      data-units: NA
+    -
+      attr-label: frequency
+      attr-def: >-
+        Indicates whether the daily metrics in this data release are summaries of "continuous" data (nwis_dv and nwis_uv)
+        or "discrete" data (most WQP data). NA values were populated for sources ecosheds, norwest, and daily summaries from WQP
+        because those source include both continuous and discrete frequencies. In the case of EcoSHEDS and NorWeST, users should
+        look at the n_obs field to discern whether observations were continous or discrete. 
+      attr-defs: This data release
+      data-min: NA
+      data-max: NA
+      data-units: NA
   -
     data-name: site_metadata.csv
-    data-description: A csv containing metadata for each temperature monitoring site included in daily_stream_temperatures.csv
+    data-description: A comma separated file containing metadata for each temperature monitoring site included in daily_stream_temperatures.csv
     attributes:
     -
       attr-label: site_id
       attr-def: >-
-        Site identifier from the source database. This is not necessarily a unique identifier, 
-        but can be crosswalked with the site metadata file with a combination of source and site_id.
+        Site identifier from the source database. This is not necessarily a unique identifier (two sources can use the same site_id), 
+        but can be crosswalked to other files in this release using a combination of source and site_id.
       attr-defs: >-
         This data release
       data-min: NA
@@ -349,7 +373,7 @@ process-description: >-
   When bringing the multi-agency data together, we ensured all units were converted to degrees Celsius. In the EcoSHEDS data,
   some data were reported in Celsius that appeared to be more consistent with Fahrenheit (e.g., values above 45). For these records,
   we identified the unique idenifiers that had observations above 45, and assigned those records as having the unit Fahrenheit, and then converted 
-  to Celsius. In the NorWest dataset,
+  to Celsius. In the NorWeST dataset,
   approximately 2.4 million records did not have reported units. We used the following rules (in order) to assign units to the records
   with no reported units; for each site-year, 
   we assigned degrees Celsius as the unit to site-years with a maximum of daily means (maxDM) less than 35 and a minimum of daily means (minDM) less

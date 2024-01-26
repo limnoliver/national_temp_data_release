@@ -52,8 +52,9 @@ rds_to_csv <- function(in_file, out_file){
 }
 
 reduce_metadata <- function(in_file, out_file) {
+
   dat <- readRDS(in_file) %>%
-    select(site_id, site_type, source, collection_agency, longitude, latitude, seg_id_orig_match, seg_id_reassign)
+    select(site_id, site_type, source, collection_agency = original_source, longitude, latitude, seg_id_orig_match, seg_id_reassign)
   
   write_csv(dat, out_file)
   
@@ -63,7 +64,7 @@ create_sf <- function(in_file) {
   readRDS(in_file) %>%
     select(site_id, source, longitude, latitude) %>%
     st_as_sf(coords = c('longitude', 'latitude'), crs = 4326, remove = FALSE) %>%
-    as_Spatial() %>%
+    #as_Spatial() %>%
     return()
     
 }

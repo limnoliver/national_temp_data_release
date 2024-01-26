@@ -104,7 +104,7 @@ upload_and_record <- function(sb_id, filepath) {
   
   # First verify that you are logged into SB. Need to do this for each task that calls 
   #sb_secret_login()
-  sbtools::authenticate_sb()
+  #sbtools::authenticate_sb()
   
   # Second, upload the file
   item_replace_files(sb_id, files = filepath)
@@ -129,7 +129,7 @@ upload_and_record <- function(sb_id, filepath) {
 #' or if any duplicated file names exist on sciencebase for this `sb_id`. 
 verify_uploads <- function(file_tbl, tgt_names, remake_file){
   
-  sb_secret_login()
+  #sb_secret_login()
   sb_id <- unique(file_tbl$sb_id)
   # this call is not robust to a tbl w/ more than one unique sb_id
   stopifnot(length(sb_id) == 1)

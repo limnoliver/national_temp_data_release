@@ -1,6 +1,6 @@
 filepath,sb_id,time_uploaded_to_sb
-out_data/spatial.zip,5f60d95e82ce3550e3c23133,2021-05-05 20:43 UTC
-out_data/daily_stream_temperature.zip,5f60d95e82ce3550e3c23133,2021-05-10 13:00 UTC
-in_data/national_stream_temp_code.zip,5f60d95e82ce3550e3c23133,2021-05-10 18:14 UTC
-out_data/site_metadata.csv,5f60d95e82ce3550e3c23133,2021-05-05 20:45 UTC
-out_xml/fgdc_metadata.xml,5f60d95e82ce3550e3c23133,2021-05-10 21:14 UTC
+out_data/spatial.zip,5f60d95e82ce3550e3c23133,2024-01-26 20:04 UTC
+out_data/daily_stream_temperature.zip,5f60d95e82ce3550e3c23133,2024-01-26 20:05 UTC
+in_data/national_stream_temp_code.zip,5f60d95e82ce3550e3c23133,2024-01-26 20:06 UTC
+out_data/site_metadata.csv,5f60d95e82ce3550e3c23133,2024-01-26 20:06 UTC
+out_xml/fgdc_metadata.xml,5f60d95e82ce3550e3c23133,2024-01-26 20:11 UTC
