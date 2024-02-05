@@ -305,6 +305,53 @@ entities:
       data-max: NA
       data-units: NA
   -
+    data-name: spatial.zip
+    data-description: A zipped folder containing a shapefile that represents the geographic locations of sites with water temperature observations in this data release.
+    attributes:
+    -
+      attr-label: site_id
+      attr-def: >-
+        Site identifier from the source database. This is not necessarily a unique identifier (two sources can use the same site_id), 
+        but can be crosswalked to other files in this release using a combination of source and site_id.
+      attr-defs: >-
+        This data release
+      data-min: NA
+      data-max: NA
+      data-units: NA
+    -
+      attr-label: latitude
+      attr-def: >-
+        Latitude of monitoring location, in decimal degrees (WGS 84) 
+      attr-defs: This data release
+      data-min: NA
+      data-max: NA
+      data-units: NA
+    -
+      attr-label: longitude
+      attr-def: >-
+        Longitude of monitoring location, in decimal degrees (WGS 84)
+      attr-defs: This data release
+      data-min: NA
+      data-max: NA
+      data-units: NA
+    -
+      attr-label: source
+      attr-def: >-
+        Database from which the temperature observations were retrieved.
+        
+        
+        nwis_dv - U.S. Geological Survey daily data for the nation
+        
+        nwis_uv - U.S. Geological Survey current conditions for the nation
+        
+        ecosheds - SHEDS temperature database
+        
+        norwest - NorWeST database
+      attr-defs: This data release
+      data-min: NA
+      data-max: NA
+      data-units: NA
+  -
     data-name: national_stream_temp_code.zip
     data-description: >-
       A zipped R Project containing all code used to retrieve and process stream temperature data.
